@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+
 Route::group(['middleware'=> ['auth']], function() {
 
     Route::prefix('admin')->namespace('Admin')->group(function () {
@@ -110,16 +111,34 @@ Route::group(['middleware'=> ['auth']], function() {
 
         Route::prefix('acompanhamentoGeracao')->group(function () {
             Route::get('/', 'AcompanhamentoGeracaoController@index')->name('acompanhamentoGeracao.index');
-            Route::get('/{id}', 'AcompanhamentoGeracaoController@index2')->name('acompanhamentoGeracao.index2');
-            Route::get('new', 'MedidoresController@new')->name('medidor.new');
-            Route::get('edit/{medidores}', 'MedidoresController@edit')->name('medidor.edit');
-            Route::post('update/{id}', 'MedidoresController@update')->name('medidor.update');
-            Route::get('remove/{id}', 'MedidoresController@delete')->name('medidor.remove');
-            Route::post('store', 'MedidoresController@store')->name('medidor.store');
+            Route::post('new', 'AcompanhamentoGeracaoController@new')->name('acompanhamentoGeracao.new');
+            Route::post('newDois', 'AcompanhamentoGeracaoController@newDois')->name('acompanhamentoGeracao.newDois');
+
+            Route::post('store', 'AcompanhamentoGeracaoController@store')->name('acompanhamentoGeracao.store');
+            Route::post('medidor', 'AcompanhamentoGeracaoController@medidor')->name('acompanhamentoGeracao.medidor');
+
+            Route::get('edit/{medidores}', 'AcompanhamentoGeracaoController@edit')->name('acompanhamentoGeracao.edit');
+            Route::post('update/{id}', 'AcompanhamentoGeracaoController@update')->name('acompanhamentoGeracao.update');
+            Route::get('remove/{id}', 'AcompanhamentoGeracaoController@delete')->name('acompanhamentoGeracao.remove');
 
         });
     });
 
+    Route::prefix('admin')->namespace('Admin')->group(function () {
 
+        Route::prefix('items')->group(function () {
+            Route::get('/', 'ItemController@index')->name('items.index');
+            Route::post('items/import', 'ItemController@import')->name('items.import');
+
+        });
+    });
+
+    Route::prefix('admin')->namespace('Admin')->group(function () {
+
+        Route::prefix('geracoes')->group(function () {
+            Route::get('/', 'PagesController@index')->name('geracoes.index'); // localhost:8000/
+            Route::post('/uploadFile', 'PagesController@uploadFile')->name('geracoes.uploadFile');
+        });
+    });
 
 });

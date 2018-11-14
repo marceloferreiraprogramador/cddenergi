@@ -26,7 +26,6 @@ class PerfilController extends Controller
     public function store(Request $request)
     {
         $addPerfils = $request->all();
-
         $perfils = new Perfils();
         $perfils->create($addPerfils);
         Sessions::where('id', 1)->update(['codigo_perfil_sessions' =>$addPerfils['codigo_perfil']]);
